@@ -1,0 +1,15 @@
+﻿FROM microsoft/aspnet
+
+# Publish your application.
+COPY your app to be published /inetpub/wwwroot
+
+# Copy the New Relic .NET agent installer
+COPY ./NewRelicDotNetAgent_x64.msi /
+
+# Install the agent
+RUN powershell.exe Start-Process -Wait -FilePath msiexec -ArgumentList /i,\ 
+"C:\NewRelicDotNetAgent_x64.msi",\
+/qn,NR_LICENSE_KEY=be9155b14a9b31bb940e183c5c5b8cb75ad40230
+
+# Set your application name
+ENV NEW_RELIC_APP_NAME=CosmosDataFw
